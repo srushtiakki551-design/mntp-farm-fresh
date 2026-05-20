@@ -75,6 +75,15 @@ const PROCESS_STEPS = [
   { tag: "Stage 07", title: "Quality Testing & Packing", desc: "Each approved batch is weighed, tested, and packed in food-grade packaging. Batch codes, production date, expiry, and export documentation are generated at this stage.", details: ["Batch Testing", "Food-grade Packs", "Export Labelling", "Documentation"] },
 ];
 
+// Farm photos — only relevant ones (no black image DSC_4926)
+const FARM_PHOTOS = [
+  { src: "https://i.ibb.co/vx8YFzF7/DSC-4977.jpg", caption: "Tomato vines in full bloom", tag: "Tomato Farm" },
+  { src: "https://i.ibb.co/cStyWBHd/DSC-4985.jpg", caption: "Fresh bottle gourd on the vine", tag: "Produce" },
+  { src: "https://i.ibb.co/Y7dDnsF0/DSC-4949.jpg", caption: "Seedlings planted under mulch", tag: "Planting Stage" },
+  { src: "https://i.ibb.co/SDs30Sdq/DSC-49117.jpg", caption: "Moringa trees in flower", tag: "Farm Diversity" },
+  { src: "https://i.ibb.co/XxPjM083/DSC-4975.jpg", caption: "Trellised crop rows with drip irrigation", tag: "Our Fields" },
+];
+
 const style = `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=Satisfy&display=swap');
   :root {
@@ -134,6 +143,44 @@ const style = `
   .section-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 3.5vw, 52px); font-weight: 700; color: var(--green-deep); line-height: 1.2; margin-bottom: 20px; }
   .section-body { font-size: 16px; line-height: 1.85; color: var(--text-mid); max-width: 600px; }
   .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; max-width: 1200px; margin: 0 auto; }
+
+  /* FARM GALLERY */
+  .farm-gallery-section { padding: 0 0 80px; background: var(--white); }
+  .farm-gallery-inner { max-width: 1200px; margin: 0 auto; padding: 0 80px; }
+  .farm-gallery-label { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--green-fresh); font-weight: 500; margin-bottom: 12px; }
+  .farm-gallery-title { font-family: 'Playfair Display', serif; font-size: clamp(26px, 3vw, 38px); font-weight: 700; color: var(--green-deep); margin-bottom: 32px; }
+
+  /* Mosaic grid layout */
+  .farm-mosaic {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 260px 260px;
+    gap: 10px;
+  }
+  .mosaic-item { position: relative; overflow: hidden; border-radius: 12px; cursor: pointer; }
+  .mosaic-item:nth-child(1) { grid-column: 1 / 6; grid-row: 1 / 2; }
+  .mosaic-item:nth-child(2) { grid-column: 6 / 9; grid-row: 1 / 2; }
+  .mosaic-item:nth-child(3) { grid-column: 9 / 13; grid-row: 1 / 3; }
+  .mosaic-item:nth-child(4) { grid-column: 1 / 4; grid-row: 2 / 3; }
+  .mosaic-item:nth-child(5) { grid-column: 4 / 9; grid-row: 2 / 3; }
+  .mosaic-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+  .mosaic-item:hover img { transform: scale(1.06); }
+  .mosaic-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,30,17,0.7) 0%, transparent 55%); opacity: 0; transition: opacity 0.3s; }
+  .mosaic-item:hover .mosaic-overlay { opacity: 1; }
+  .mosaic-caption { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 18px; transform: translateY(8px); opacity: 0; transition: all 0.3s; }
+  .mosaic-item:hover .mosaic-caption { transform: translateY(0); opacity: 1; }
+  .mosaic-tag { display: inline-block; background: var(--amber); color: white; font-size: 10px; padding: 2px 10px; border-radius: 100px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
+  .mosaic-cap-text { font-size: 13px; color: rgba(245,240,232,0.9); line-height: 1.4; }
+
+  /* FARM VIDEO */
+  .farm-video-section { background: var(--green-deep); padding: 72px 80px; }
+  .farm-video-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: center; }
+  .farm-video-text .section-title { color: var(--cream); }
+  .farm-video-text .section-label { color: var(--amber-light); }
+  .farm-video-text .section-body { color: rgba(245,240,232,0.7); }
+  .farm-video-wrap { border-radius: 16px; overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,0.4); position: relative; }
+  .farm-video-wrap video { width: 100%; display: block; max-height: 480px; object-fit: cover; background: #000; }
+  .video-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(196,135,58,0.18); border: 1px solid rgba(196,135,58,0.35); border-radius: 100px; padding: 6px 16px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--amber-light); margin-bottom: 20px; }
 
   /* VALUES */
   .values-strip { background: var(--green-deep); padding: 72px 80px; display: flex; gap: 0; justify-content: center; }
@@ -252,13 +299,20 @@ const style = `
   .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 8px 32px rgba(37,211,102,0.55); }
   .whatsapp-float svg { width: 30px; height: 30px; }
 
+  /* LIGHTBOX */
+  .lightbox-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(5,15,7,0.92); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; animation: pageIn 0.25s both; }
+  .lightbox-img { max-width: 88vw; max-height: 85vh; border-radius: 12px; object-fit: contain; box-shadow: 0 32px 80px rgba(0,0,0,0.6); }
+  .lightbox-close { position: absolute; top: 24px; right: 28px; width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .lightbox-close:hover { background: rgba(255,255,255,0.22); }
+  .lightbox-caption { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); background: rgba(15,30,17,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; padding: 8px 20px; color: rgba(245,240,232,0.85); font-size: 14px; white-space: nowrap; }
+
   @media (max-width: 900px) {
     nav { padding: 0 20px; }
     .nav-tabs { gap: 2px; }
     .nav-tab { padding: 6px 10px; font-size: 12px; }
     .hero-content { padding: 0 28px; }
-    .story-grid, .contact-page, .home-enquiry-inner { grid-template-columns: 1fr; gap: 40px; }
-    .story-section, .process-steps, .contact-left, .contact-right, .cert-strip, .values-strip, .home-enquiry { padding: 48px 24px; }
+    .story-grid, .contact-page, .home-enquiry-inner, .farm-video-inner { grid-template-columns: 1fr; gap: 40px; }
+    .story-section, .process-steps, .contact-left, .contact-right, .cert-strip, .values-strip, .home-enquiry, .farm-gallery-inner, .farm-video-section { padding: 48px 24px; }
     .products-hero, .process-hero, .quality-hero { padding: 60px 24px 40px; }
     .form-row { grid-template-columns: 1fr; }
     footer { padding: 40px 24px 20px; }
@@ -272,6 +326,13 @@ const style = `
     .qt-empty { display: none; }
     .qt-dot-wrap { grid-column: 1; justify-content: flex-start; }
     .qt-content { grid-column: 2; }
+    .farm-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 180px 180px 180px; }
+    .mosaic-item:nth-child(1) { grid-column: 1 / 2; grid-row: 1 / 2; }
+    .mosaic-item:nth-child(2) { grid-column: 2 / 3; grid-row: 1 / 2; }
+    .mosaic-item:nth-child(3) { grid-column: 1 / 2; grid-row: 2 / 3; }
+    .mosaic-item:nth-child(4) { grid-column: 2 / 3; grid-row: 2 / 3; }
+    .mosaic-item:nth-child(5) { grid-column: 1 / 3; grid-row: 3 / 4; }
+    .farm-gallery-inner { padding: 0 24px; }
   }
 `;
 
@@ -332,6 +393,7 @@ export default function App() {
   const [formData, setFormData] = useState({ name: "", company: "", email: "", phone: "", product: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [lightboxPhoto, setLightboxPhoto] = useState(null);
 
   const handleSubmit = () => {
     if (formData.name && formData.email) {
@@ -410,8 +472,65 @@ export default function App() {
                     Over the years, we've grown into a trusted dehydration partner for spice blenders, food manufacturers, and exporters across Asia, Europe, and the Middle East.
                   </p>
                 </div>
-                <div style={{background: "var(--cream)", borderRadius: 16, height: 300, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-mid)", fontSize: 14}}>
-                  Farm images coming soon
+                {/* Replace placeholder with real farm photo */}
+                <div style={{borderRadius: 16, overflow: "hidden", height: 360, position: "relative", boxShadow: "0 16px 48px rgba(26,58,31,0.18)"}}>
+                  <img
+                    src="https://i.ibb.co/XxPjM083/DSC-4975.jpg"
+                    alt="Our farm fields in Maharashtra"
+                    style={{width: "100%", height: "100%", objectFit: "cover", display: "block"}}
+                  />
+                  <div style={{position:"absolute", inset:0, background:"linear-gradient(to top, rgba(15,30,17,0.45) 0%, transparent 60%)"}} />
+                  <div style={{position:"absolute", bottom:20, left:20}}>
+                    <span style={{background:"rgba(196,135,58,0.9)", color:"white", fontSize:11, padding:"4px 14px", borderRadius:100, letterSpacing:1, textTransform:"uppercase"}}>Our Fields · Solapur</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ── FARM PHOTO GALLERY ── */}
+            <div className="farm-gallery-section">
+              <div className="farm-gallery-inner">
+                <div className="farm-gallery-label">Straight from the Source</div>
+                <h2 className="farm-gallery-title">Life on the Farm</h2>
+                <div className="farm-mosaic">
+                  {FARM_PHOTOS.map((photo, i) => (
+                    <div className="mosaic-item" key={i} onClick={() => setLightboxPhoto(photo)}>
+                      <img src={photo.src} alt={photo.caption} loading="lazy" />
+                      <div className="mosaic-overlay" />
+                      <div className="mosaic-caption">
+                        <div><span className="mosaic-tag">{photo.tag}</span></div>
+                        <div className="mosaic-cap-text">{photo.caption}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* ── FARM VIDEO ── */}
+            <div className="farm-video-section">
+              <div className="farm-video-inner">
+                <div className="farm-video-text">
+                  <div className="section-label">Behind the Scenes</div>
+                  <h2 className="section-title">Watch Our Farm in Action</h2>
+                  <p className="section-body">
+                    From lush green fields to carefully tended produce — every crop we dehydrate begins its journey here, grown by farmers we know by name.
+                  </p>
+                  <div style={{marginTop: 28, display:"flex", gap:12, flexWrap:"wrap"}}>
+                    <div className="video-badge">🎥 Farm footage</div>
+                    <div className="video-badge">📍 Solapur, Maharashtra</div>
+                  </div>
+                </div>
+                <div className="farm-video-wrap">
+                  <video
+                    controls
+                    playsInline
+                    preload="metadata"
+                    poster="https://i.ibb.co/XxPjM083/DSC-4975.jpg"
+                  >
+                    <source src="https://res.cloudinary.com/djiomh95j/video/upload/v1779295208/WhatsApp_Video_2026-05-17_at_9.06.50_AM_mgswcp.mp4" type="video/mp4" />
+                    Your browser does not support video playback.
+                  </video>
                 </div>
               </div>
             </div>
@@ -526,27 +645,15 @@ export default function App() {
               maxHeight:"90vh", overflow:"hidden", display:"flex", flexDirection:"column",
               boxShadow:"0 32px 80px rgba(0,0,0,0.35)", animation:"pageIn 0.35s both"
             }} onClick={e => e.stopPropagation()}>
-
-              {/* Modal Header */}
               <div style={{display:"flex", gap:0, position:"relative"}}>
-                {/* Image panel */}
-                <div style={{
-                  width:260, flexShrink:0, background:"var(--cream)",
-                  display:"flex", alignItems:"center", justifyContent:"center",
-                  borderRadius:"24px 0 0 0", overflow:"hidden", minHeight:220
-                }}>
+                <div style={{width:260, flexShrink:0, background:"var(--cream)", display:"flex", alignItems:"center", justifyContent:"center", borderRadius:"24px 0 0 0", overflow:"hidden", minHeight:220}}>
                   {selectedProduct.mainImg ? (
-                    <img src={selectedProduct.mainImg} alt={selectedProduct.name}
-                      style={{width:"100%", height:"100%", objectFit:"cover", display:"block"}} />
+                    <img src={selectedProduct.mainImg} alt={selectedProduct.name} style={{width:"100%", height:"100%", objectFit:"cover", display:"block"}} />
                   ) : (
                     <div style={{fontSize:48}}>🌿</div>
                   )}
                 </div>
-                {/* Title panel */}
-                <div style={{
-                  flex:1, background:"var(--green-deep)", padding:"32px 36px",
-                  borderRadius:"0 24px 0 0", display:"flex", flexDirection:"column", justifyContent:"center"
-                }}>
+                <div style={{flex:1, background:"var(--green-deep)", padding:"32px 36px", borderRadius:"0 24px 0 0", display:"flex", flexDirection:"column", justifyContent:"center"}}>
                   <div style={{fontSize:10, letterSpacing:3, textTransform:"uppercase", color:"var(--amber-light)", marginBottom:8}}>Product Details</div>
                   <div style={{fontFamily:"'Playfair Display', serif", fontSize:28, fontWeight:700, color:"var(--cream)", lineHeight:1.2, marginBottom:14}}>{selectedProduct.name}</div>
                   <p style={{fontSize:14, lineHeight:1.75, color:"rgba(245,240,232,0.72)", maxWidth:380}}>{selectedProduct.desc}</p>
@@ -556,59 +663,30 @@ export default function App() {
                     ))}
                   </div>
                 </div>
-                {/* Close btn */}
-                <button onClick={() => setSelectedProduct(null)} style={{
-                  position:"absolute", top:16, right:16, width:36, height:36,
-                  borderRadius:"50%", background:"rgba(255,255,255,0.15)", border:"1px solid rgba(255,255,255,0.25)",
-                  color:"var(--white)", fontSize:18, cursor:"pointer", display:"flex",
-                  alignItems:"center", justifyContent:"center", lineHeight:1
-                }}>×</button>
+                <button onClick={() => setSelectedProduct(null)} style={{position:"absolute", top:16, right:16, width:36, height:36, borderRadius:"50%", background:"rgba(255,255,255,0.15)", border:"1px solid rgba(255,255,255,0.25)", color:"var(--white)", fontSize:18, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", lineHeight:1}}>×</button>
               </div>
-
-              {/* Specs Grid */}
               <div style={{padding:"28px 36px", overflowY:"auto", flex:1}}>
                 <div style={{fontSize:10, letterSpacing:3, textTransform:"uppercase", color:"var(--green-mid)", fontWeight:600, marginBottom:16}}>Technical Specifications</div>
-                <div style={{
-                  display:"grid", gridTemplateColumns:"repeat(3, 1fr)",
-                  border:"1px solid var(--cream-dark)", borderRadius:12, overflow:"hidden"
-                }}>
+                <div style={{display:"grid", gridTemplateColumns:"repeat(3, 1fr)", border:"1px solid var(--cream-dark)", borderRadius:12, overflow:"hidden"}}>
                   {Object.entries(selectedProduct.specs).map(([key, val], i) => (
-                    <div key={i} style={{
-                      padding:"16px 20px",
-                      borderRight: (i % 3 !== 2) ? "1px solid var(--cream-dark)" : "none",
-                      borderBottom: (i < Object.keys(selectedProduct.specs).length - 3) ? "1px solid var(--cream-dark)" : "none",
-                      background: i % 2 === 0 ? "var(--white)" : "#faf8f3"
-                    }}>
+                    <div key={i} style={{padding:"16px 20px", borderRight: (i % 3 !== 2) ? "1px solid var(--cream-dark)" : "none", borderBottom: (i < Object.keys(selectedProduct.specs).length - 3) ? "1px solid var(--cream-dark)" : "none", background: i % 2 === 0 ? "var(--white)" : "#faf8f3"}}>
                       <div style={{fontSize:10, letterSpacing:1, textTransform:"uppercase", color:"var(--green-mid)", marginBottom:4, fontWeight:500}}>{key}</div>
                       <div style={{fontSize:15, fontWeight:600, color:"var(--green-deep)"}}>{val}</div>
                     </div>
                   ))}
                 </div>
-
-                {/* CTA row */}
                 <div style={{display:"flex", gap:12, marginTop:24, paddingTop:20, borderTop:"1px solid var(--cream-dark)"}}>
-                  <button style={{
-                    flex:1, background:"var(--green-deep)", color:"var(--cream)", border:"none",
-                    padding:"13px 24px", borderRadius:10, fontSize:14, fontWeight:500,
-                    cursor:"pointer", fontFamily:"'DM Sans', sans-serif", transition:"all 0.2s"
-                  }} onClick={() => { goToContact(selectedProduct.name); setSelectedProduct(null); }}
+                  <button style={{flex:1, background:"var(--green-deep)", color:"var(--cream)", border:"none", padding:"13px 24px", borderRadius:10, fontSize:14, fontWeight:500, cursor:"pointer", fontFamily:"'DM Sans', sans-serif", transition:"all 0.2s"}}
+                    onClick={() => { goToContact(selectedProduct.name); setSelectedProduct(null); }}
                     onMouseEnter={e => e.target.style.background="var(--amber)"}
                     onMouseLeave={e => e.target.style.background="var(--green-deep)"}>
                     🌿 Request a Quote
                   </button>
-                  <a href="https://wa.me/91942359150" target="_blank" rel="noopener noreferrer" style={{
-                    display:"flex", alignItems:"center", gap:8, background:"#25D366", color:"white",
-                    padding:"13px 24px", borderRadius:10, fontSize:14, fontWeight:500,
-                    textDecoration:"none", whiteSpace:"nowrap"
-                  }}>
+                  <a href="https://wa.me/91942359150" target="_blank" rel="noopener noreferrer" style={{display:"flex", alignItems:"center", gap:8, background:"#25D366", color:"white", padding:"13px 24px", borderRadius:10, fontSize:14, fontWeight:500, textDecoration:"none", whiteSpace:"nowrap"}}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.525 5.847L.057 23.982l6.31-1.653A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.812 9.812 0 01-5.018-1.382l-.36-.214-3.736.979 1-3.635-.234-.374A9.808 9.808 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
                     WhatsApp Us
                   </a>
-                  <button style={{
-                    background:"transparent", color:"var(--text-mid)", border:"1.5px solid var(--cream-dark)",
-                    padding:"13px 20px", borderRadius:10, fontSize:14, cursor:"pointer",
-                    fontFamily:"'DM Sans', sans-serif"
-                  }} onClick={() => setSelectedProduct(null)}>Close</button>
+                  <button style={{background:"transparent", color:"var(--text-mid)", border:"1.5px solid var(--cream-dark)", padding:"13px 20px", borderRadius:10, fontSize:14, cursor:"pointer", fontFamily:"'DM Sans', sans-serif"}} onClick={() => setSelectedProduct(null)}>Close</button>
                 </div>
               </div>
             </div>
@@ -717,6 +795,15 @@ export default function App() {
         )}
 
       </div>
+
+      {/* LIGHTBOX */}
+      {lightboxPhoto && (
+        <div className="lightbox-overlay" onClick={() => setLightboxPhoto(null)}>
+          <button className="lightbox-close" onClick={() => setLightboxPhoto(null)}>×</button>
+          <img className="lightbox-img" src={lightboxPhoto.src} alt={lightboxPhoto.caption} onClick={e => e.stopPropagation()} />
+          <div className="lightbox-caption">{lightboxPhoto.caption}</div>
+        </div>
+      )}
 
       <a className="whatsapp-float" href="https://wa.me/91942359150" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
         <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
