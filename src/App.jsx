@@ -129,6 +129,7 @@ const style = `
   .hero-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--amber); color: var(--white); padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 500; cursor: pointer; border: none; transition: all 0.25s; animation: fadeSlideUp 0.7s 0.4s both; font-family: 'DM Sans', sans-serif; }
   .hero-cta:hover { background: var(--amber-light); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(196,135,58,0.35); }
   @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
   /* TICKER */
   .ticker { background: var(--amber); padding: 12px 0; overflow: hidden; white-space: nowrap; }
@@ -719,56 +720,93 @@ export default function App() {
           <div style={{
             position:"fixed", inset:0, zIndex:200,
             background:"rgba(15,30,17,0.72)", backdropFilter:"blur(6px)",
-            display:"flex", alignItems:"center", justifyContent:"center",
-            padding:"20px", animation:"pageIn 0.3s both"
+            display:"flex", alignItems:"flex-end", justifyContent:"center",
+            padding:"0", animation:"pageIn 0.3s both"
           }} onClick={() => setSelectedProduct(null)}>
             <div style={{
-              background:"var(--white)", borderRadius:24, maxWidth:820, width:"100%",
-              maxHeight:"90vh", overflow:"hidden", display:"flex", flexDirection:"column",
-              boxShadow:"0 32px 80px rgba(0,0,0,0.35)", animation:"pageIn 0.35s both"
+              background:"var(--white)", borderRadius:"20px 20px 0 0", width:"100%", maxWidth:820,
+              maxHeight:"92vh", overflow:"hidden", display:"flex", flexDirection:"column",
+              boxShadow:"0 -8px 40px rgba(0,0,0,0.35)", animation:"slideUp 0.35s cubic-bezier(0.22,1,0.36,1) both"
             }} onClick={e => e.stopPropagation()}>
-              <div style={{display:"flex", gap:0, position:"relative"}}>
-                <div style={{width:260, flexShrink:0, background:"var(--cream)", display:"flex", alignItems:"center", justifyContent:"center", borderRadius:"24px 0 0 0", overflow:"hidden", minHeight:220}}>
-                  {selectedProduct.mainImg ? (
-                    <img src={selectedProduct.mainImg} alt={selectedProduct.name} style={{width:"100%", height:"100%", objectFit:"cover", display:"block"}} />
-                  ) : (
-                    <div style={{fontSize:48}}>🌿</div>
-                  )}
-                </div>
-                <div style={{flex:1, background:"var(--green-deep)", padding:"32px 36px", borderRadius:"0 24px 0 0", display:"flex", flexDirection:"column", justifyContent:"center"}}>
-                  <div style={{fontSize:10, letterSpacing:3, textTransform:"uppercase", color:"var(--amber-light)", marginBottom:8}}>Product Details</div>
-                  <div style={{fontFamily:"'Playfair Display', serif", fontSize:28, fontWeight:700, color:"var(--cream)", lineHeight:1.2, marginBottom:14}}>{selectedProduct.name}</div>
-                  <p style={{fontSize:14, lineHeight:1.75, color:"rgba(245,240,232,0.72)", maxWidth:380}}>{selectedProduct.desc}</p>
-                  <div style={{display:"flex", flexWrap:"wrap", gap:6, marginTop:16}}>
-                    {selectedProduct.forms.map((f, i) => (
-                      <span key={i} style={{background:"rgba(255,255,255,0.12)", color:"var(--cream)", fontSize:11, padding:"3px 12px", borderRadius:100, border:"1px solid rgba(255,255,255,0.15)"}}>{f}</span>
-                    ))}
+
+              {/* Drag handle */}
+              <div style={{display:"flex", justifyContent:"center", padding:"12px 0 4px"}}>
+                <div style={{width:40, height:4, borderRadius:2, background:"var(--cream-dark)"}} />
+              </div>
+
+              {/* Header — stacked on mobile */}
+              <div style={{display:"flex", flexDirection:"column", position:"relative"}}>
+                {/* Close btn */}
+                <button onClick={() => setSelectedProduct(null)} style={{
+                  position:"absolute", top:12, right:16, width:36, height:36,
+                  borderRadius:"50%", background:"rgba(0,0,0,0.12)", border:"none",
+                  color:"var(--white)", fontSize:20, cursor:"pointer", display:"flex",
+                  alignItems:"center", justifyContent:"center", zIndex:10, lineHeight:1
+                }}>×</button>
+
+                {/* Image + title row */}
+                <div style={{display:"flex", background:"var(--green-deep)", padding:"20px 20px 20px 20px", gap:16, alignItems:"center"}}>
+                  <div style={{
+                    width:90, height:90, borderRadius:12, overflow:"hidden",
+                    background:"var(--cream)", flexShrink:0,
+                    border:"2px solid rgba(255,255,255,0.15)"
+                  }}>
+                    {selectedProduct.mainImg
+                      ? <img src={selectedProduct.mainImg} alt={selectedProduct.name} style={{width:"100%", height:"100%", objectFit:"cover"}} />
+                      : <div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:32}}>🌿</div>
+                    }
+                  </div>
+                  <div style={{flex:1, minWidth:0}}>
+                    <div style={{fontSize:9, letterSpacing:2, textTransform:"uppercase", color:"var(--amber-light)", marginBottom:6}}>Product Details</div>
+                    <div style={{fontFamily:"'Playfair Display', serif", fontSize:22, fontWeight:700, color:"var(--cream)", lineHeight:1.2, marginBottom:10}}>{selectedProduct.name}</div>
+                    <div style={{display:"flex", flexWrap:"wrap", gap:5}}>
+                      {selectedProduct.forms.map((f, i) => (
+                        <span key={i} style={{background:"rgba(255,255,255,0.12)", color:"var(--cream)", fontSize:10, padding:"2px 10px", borderRadius:100, border:"1px solid rgba(255,255,255,0.15)"}}>{f}</span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <button onClick={() => setSelectedProduct(null)} style={{position:"absolute", top:16, right:16, width:36, height:36, borderRadius:"50%", background:"rgba(255,255,255,0.15)", border:"1px solid rgba(255,255,255,0.25)", color:"var(--white)", fontSize:18, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", lineHeight:1}}>×</button>
+
+                {/* Description */}
+                <div style={{padding:"16px 20px 0", background:"var(--white)"}}>
+                  <p style={{fontSize:13, lineHeight:1.7, color:"var(--text-mid)"}}>{selectedProduct.desc}</p>
+                </div>
               </div>
-              <div style={{padding:"28px 36px", overflowY:"auto", flex:1}}>
-                <div style={{fontSize:10, letterSpacing:3, textTransform:"uppercase", color:"var(--green-mid)", fontWeight:600, marginBottom:16}}>Technical Specifications</div>
-                <div style={{display:"grid", gridTemplateColumns:"repeat(3, 1fr)", border:"1px solid var(--cream-dark)", borderRadius:12, overflow:"hidden"}}>
-                  {Object.entries(selectedProduct.specs).map(([key, val], i) => (
-                    <div key={i} style={{padding:"16px 20px", borderRight: (i % 3 !== 2) ? "1px solid var(--cream-dark)" : "none", borderBottom: (i < Object.keys(selectedProduct.specs).length - 3) ? "1px solid var(--cream-dark)" : "none", background: i % 2 === 0 ? "var(--white)" : "#faf8f3"}}>
-                      <div style={{fontSize:10, letterSpacing:1, textTransform:"uppercase", color:"var(--green-mid)", marginBottom:4, fontWeight:500}}>{key}</div>
-                      <div style={{fontSize:15, fontWeight:600, color:"var(--green-deep)"}}>{val}</div>
+
+              {/* Specs + CTA — scrollable */}
+              <div style={{padding:"16px 20px 24px", overflowY:"auto", flex:1}}>
+                <div style={{fontSize:9, letterSpacing:3, textTransform:"uppercase", color:"var(--green-mid)", fontWeight:600, marginBottom:12}}>Technical Specifications</div>
+                <div style={{display:"grid", gridTemplateColumns:"repeat(2, 1fr)", border:"1px solid var(--cream-dark)", borderRadius:12, overflow:"hidden"}}>
+                  {Object.entries(selectedProduct.specs).map(([key, val], i, arr) => (
+                    <div key={i} style={{
+                      padding:"12px 14px",
+                      borderRight: (i % 2 !== 1) ? "1px solid var(--cream-dark)" : "none",
+                      borderBottom: (i < arr.length - 2) ? "1px solid var(--cream-dark)" : "none",
+                      background: i % 2 === 0 ? "var(--white)" : "#faf8f3"
+                    }}>
+                      <div style={{fontSize:9, letterSpacing:1, textTransform:"uppercase", color:"var(--green-mid)", marginBottom:3, fontWeight:500}}>{key}</div>
+                      <div style={{fontSize:14, fontWeight:600, color:"var(--green-deep)"}}>{val}</div>
                     </div>
                   ))}
                 </div>
-                <div style={{display:"flex", gap:12, marginTop:24, paddingTop:20, borderTop:"1px solid var(--cream-dark)"}}>
-                  <button style={{flex:1, background:"var(--green-deep)", color:"var(--cream)", border:"none", padding:"13px 24px", borderRadius:10, fontSize:14, fontWeight:500, cursor:"pointer", fontFamily:"'DM Sans', sans-serif", transition:"all 0.2s"}}
-                    onClick={() => { goToContact(selectedProduct.name); setSelectedProduct(null); }}
-                    onMouseEnter={e => e.target.style.background="var(--amber)"}
-                    onMouseLeave={e => e.target.style.background="var(--green-deep)"}>
+
+                {/* CTA buttons — stacked on mobile */}
+                <div style={{display:"flex", flexDirection:"column", gap:10, marginTop:20}}>
+                  <button style={{
+                    background:"var(--green-deep)", color:"var(--cream)", border:"none",
+                    padding:"14px 24px", borderRadius:10, fontSize:15, fontWeight:500,
+                    cursor:"pointer", fontFamily:"'DM Sans', sans-serif", width:"100%"
+                  }} onClick={() => { goToContact(selectedProduct.name); setSelectedProduct(null); }}>
                     🌿 Request a Quote
                   </button>
-                  <a href="https://wa.me/919423591545" target="_blank" rel="noopener noreferrer" style={{display:"flex", alignItems:"center", gap:8, background:"#25D366", color:"white", padding:"13px 24px", borderRadius:10, fontSize:14, fontWeight:500, textDecoration:"none", whiteSpace:"nowrap"}}>
+                  <a href="https://wa.me/919423591545" target="_blank" rel="noopener noreferrer" style={{
+                    display:"flex", alignItems:"center", justifyContent:"center", gap:8,
+                    background:"#25D366", color:"white", padding:"14px 24px", borderRadius:10,
+                    fontSize:15, fontWeight:500, textDecoration:"none", width:"100%"
+                  }}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.525 5.847L.057 23.982l6.31-1.653A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.812 9.812 0 01-5.018-1.382l-.36-.214-3.736.979 1-3.635-.234-.374A9.808 9.808 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
                     WhatsApp Us
                   </a>
-                  <button style={{background:"transparent", color:"var(--text-mid)", border:"1.5px solid var(--cream-dark)", padding:"13px 20px", borderRadius:10, fontSize:14, cursor:"pointer", fontFamily:"'DM Sans', sans-serif"}} onClick={() => setSelectedProduct(null)}>Close</button>
                 </div>
               </div>
             </div>
