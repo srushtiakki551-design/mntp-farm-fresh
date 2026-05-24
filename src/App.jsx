@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const LOGO_IMG = "/logo.png";
 
@@ -340,13 +340,15 @@ const style = `
     .footer-links { flex-wrap: wrap; justify-content: center; gap: 12px; }
 
     /* Products — single column, full width card, image not cut */
-    .products-grid { grid-template-columns: 1fr; gap: 16px; max-width: 100%; margin: 0; }
+    .products-grid { grid-template-columns: 1fr; gap: 12px; max-width: 100%; margin: 0; }
     .products-main { padding: 24px 16px 60px; }
-    .product-card { flex-direction: row; align-items: center; padding: 20px 16px; text-align: left; gap: 16px; }
-    .product-card-img-wrap { width: 100px; height: 100px; flex-shrink: 0; margin-bottom: 0; }
-    .product-card-name { font-size: 16px; margin-bottom: 6px; }
-    .product-card-forms { justify-content: flex-start; margin-bottom: 12px; }
-    .product-card-btn { width: auto; }
+    .product-card { flex-direction: row; align-items: center; padding: 16px; text-align: left; gap: 14px; min-width: 0; overflow: hidden; }
+    .product-card-img-wrap { width: 88px; height: 88px; min-width: 88px; flex-shrink: 0; margin-bottom: 0; }
+    .product-card-content { flex: 1; min-width: 0; overflow: hidden; }
+    .product-card-name { font-size: 15px; margin-bottom: 5px; white-space: normal; }
+    .product-card-forms { justify-content: flex-start; margin-bottom: 10px; flex-wrap: wrap; gap: 4px; max-width: 100%; overflow: hidden; }
+    .product-card-form { font-size: 10px; padding: 2px 8px; white-space: nowrap; }
+    .product-card-btn { font-size: 11px; padding: 7px 14px; width: auto; }
 
     .home-enquiry-form { padding: 24px 20px; }
     .quality-timeline { padding: 48px 20px; }
@@ -460,12 +462,36 @@ function EnquiryForm({ onSubmit, submitted, formData, setFormData }) {
 }
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState("story");
+  const [activeTab, setActiveTab] = useState(() => {
+    const hash = window.location.hash.replace("#", "");
+    return ["story","products","quality","process","contact"].includes(hash) ? hash : "story";
+  });
   const [formData, setFormData] = useState({ name: "", company: "", email: "", phone: "", product: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [lightboxPhoto, setLightboxPhoto] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Sync tab → URL hash
+  useEffect(() => {
+    window.location.hash = activeTab;
+  }, [activeTab]);
+
+  // Handle browser back/forward
+  useEffect(() => {
+    const onPop = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (["story","products","quality","process","contact"].includes(hash)) {
+        setActiveTab(hash);
+        setSelectedProduct(null);
+        setMenuOpen(false);
+      } else {
+        setActiveTab("story");
+      }
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
 
   const handleSubmit = () => {
     if (formData.name && formData.email) {
@@ -697,11 +723,13 @@ export default function App() {
                         <div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"var(--text-mid)",fontSize:12}}>No image</div>
                       )}
                     </div>
-                    <div className="product-card-name">{p.name}</div>
-                    <div className="product-card-forms">
-                      {p.forms.map((f, j) => <span className="product-card-form" key={j}>{f}</span>)}
+                    <div className="product-card-content" style={{flex:1, minWidth:0, overflow:"hidden"}}>
+                      <div className="product-card-name">{p.name}</div>
+                      <div className="product-card-forms">
+                        {p.forms.map((f, j) => <span className="product-card-form" key={j}>{f}</span>)}
+                      </div>
+                      <button className="product-card-btn" onClick={e => { e.stopPropagation(); setSelectedProduct(p); }}>View Details</button>
                     </div>
-                    <button className="product-card-btn" onClick={e => { e.stopPropagation(); setSelectedProduct(p); }}>View Details</button>
                   </div>
                 ))}
               </div>
