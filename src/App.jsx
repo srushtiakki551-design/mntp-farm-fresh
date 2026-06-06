@@ -9,13 +9,16 @@ const PRODUCT_IMGS = {
   springonion: "/onion.png",
   carrot: "/carrot.png",
   tomato: "/tomato.png",
-  cabbage: "/cabbage.png",
-  banana: "/banana.png",
-  mango: "/mango.png",
-  spinach: "/spinach.png"
 }
 
 const PRODUCTS = [
+  {
+    name: "Dehydrated Ginger",
+    desc: "Carefully sliced and dried ginger root retaining essential oils and gingerol. Widely used in beverages, spice mixes, health products, and export food processing.",
+    forms: ["Sliced", "Powder", "Granules", "Splits"],
+    mainImg: PRODUCT_IMGS.ginger,
+    specs: { "Moisture": "≤10%", "Colour": "Light Tan", "Cut Form": "Sliced / Powder / Granules / Splits", "Application": "Beverages, spice mixes, health products", "Packaging": "Poly Bag + Carton", "Origin": "Kerala / Maharashtra" }
+  },
   {
     name: "Dehydrated Green Chilli",
     desc: "Sun-dried green chilli retaining natural heat and colour. Used in sauces, seasonings, ready meals, and spice blends. Available in flakes, powder, and slices.",
@@ -34,28 +37,28 @@ const PRODUCTS = [
     name: "Dehydrated Cabbage",
     desc: "Crisp dehydrated cabbage ideal for soups, instant noodles, and dehydrated meal mixes. Maintains light colour and mild flavour after rehydration.",
     forms: ["Flakes", "Slices"],
-    mainImg:  PRODUCT_IMGS.cabbage,
+    mainImg: null,
     specs: { "Moisture": "<5%", "Colour": "Creamy white to light green", "Cut Form": "Flakes / Slices", "Application": "Soups, instant noodles, dehydrated mixes", "Packaging": "Kraft + Liner", "Origin": "Maharashtra" }
   },
   {
     name: "Dehydrated Spinach",
     desc: "Rich green spinach flakes and powder retaining chlorophyll and nutrients. Ideal for nutraceuticals, health powders, and fortified food blends.",
     forms: ["Flakes", "Powder"],
-    mainImg:  PRODUCT_IMGS.spinach,
+    mainImg: null,
     specs: { "Moisture": "<5%", "Colour": "Rich green", "Cut Form": "Flakes / Powder", "Application": "Nutraceuticals, powders, health blends", "Packaging": "Vacuum Packing Optional", "Origin": "Maharashtra" }
   },
   {
     name: "Dehydrated Banana",
     desc: "Creamy banana powder and slices made from ripe bananas. Perfect for baby food, bakery products, smoothies, and nutritional powders.",
     forms: ["Powder", "Slices"],
-    mainImg:  PRODUCT_IMGS.banana,
+    mainImg: null,
     specs: { "Moisture": "<5%", "Colour": "Cream to light yellow", "Cut Form": "Powder / Slices", "Application": "Baby food, bakery, smoothies", "Packaging": "Poly Bag + Carton", "Origin": "Maharashtra / Karnataka" }
   },
   {
     name: "Dehydrated Mango",
     desc: "Golden mango powder and slices with concentrated tropical flavour. Used in beverages, desserts, flavouring, and export food manufacturing.",
     forms: ["Powder", "Slices"],
-    mainImg:  PRODUCT_IMGS.mango,
+    mainImg: null,
     specs: { "Moisture": "<5%", "Colour": "Yellow to golden yellow", "Cut Form": "Powder / Slices", "Application": "Beverages, desserts, flavoring", "Packaging": "Poly Bag + Carton", "Origin": "Maharashtra / Konkan" }
   },
 ];
@@ -740,14 +743,17 @@ export default function App() {
                   <div style={{ marginTop: 32 }}>
                     {[
                       { icon: "📍", title: "Address", val: "G4 Chincholi MIDC, Solapur, Maharashtra – 413255" },
-                      { icon: "📞", title: "Phone", val: "+91 9423591545" },
-                      { icon: "✉️", title: "Email", val: "contact@mntpfamfresh.com" },
+                      { icon: "📞", title: "Phone", val: "+91 9423591545", href: "tel:+919423591545" },
+                      { icon: "✉️", title: "Email", val: "contact@mntpfarmfresh.com", href: "mailto:contact@mntpfarmfresh.com" },
                     ].map((item, i) => (
                       <div className="home-contact-item" key={i}>
                         <div className="home-ci-icon">{item.icon}</div>
                         <div>
                           <div className="home-ci-title">{item.title}</div>
-                          <div className="home-ci-val">{item.val}</div>
+                          {item.href
+                            ? <a href={item.href} className="home-ci-val" style={{color:"var(--text-mid)", textDecoration:"none"}}>{item.val}</a>
+                            : <div className="home-ci-val">{item.val}</div>
+                          }
                         </div>
                       </div>
                     ))}
@@ -1121,15 +1127,18 @@ export default function App() {
                 <div className="contact-info">
                   {[
                     { icon: "📍", title: "Address", val: "G4 Chincholi MIDC, Solapur, Maharashtra – 413255" },
-                    { icon: "📞", title: "Phone", val: "+91 9423591545" },
-                    { icon: "✉️", title: "Email", val: "contact@mntpfamfresh.com" },
+                    { icon: "📞", title: "Phone", val: "+91 9423591545", href: "tel:+919423591545" },
+                    { icon: "✉️", title: "Email", val: "contact@mntpfarmfresh.com", href: "mailto:contact@mntpfarmfresh.com" },
                     { icon: "🕐", title: "Working Hours", val: "Mon – Sat, 9:00 AM – 6:30 PM IST" },
                   ].map((item, i) => (
                     <div className="contact-info-item" key={i}>
                       <div className="ci-icon">{item.icon}</div>
                       <div>
                         <div className="ci-title">{item.title}</div>
-                        <div className="ci-val">{item.val}</div>
+                        {item.href
+                          ? <a href={item.href} className="ci-val" style={{color:"rgba(245,240,232,0.85)", textDecoration:"none"}}>{item.val}</a>
+                          : <div className="ci-val">{item.val}</div>
+                        }
                       </div>
                     </div>
                   ))}
