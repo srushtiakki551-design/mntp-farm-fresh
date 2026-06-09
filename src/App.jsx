@@ -108,9 +108,16 @@ const PRODUCT_SCHEMAS = {
 const LOGO_IMG = "/logo.png";
 
 const PRODUCT_IMGS = {
-  chilli: "/chilli.png",
-  ginger: "/ginger.png",
-  carrot: "/carrot.png",
+  coriander:   "/coriander.png",
+  chilli:      "/chilli.png",
+  ginger:      "/ginger.png",
+  springonion: "/onion.png",
+  carrot:      "/carrot.png",
+  tomato:      "/tomato.png",
+  cabbage:     "/cabbage.png",   // ← add when ready
+  spinach:     "/spinach.png",
+  banana:      "/banana.png",
+  mango:       "/mango.png",
 };
 
 const PRODUCTS = [
@@ -139,28 +146,28 @@ const PRODUCTS = [
     name: "Dehydrated Cabbage",
     desc: "Crisp dehydrated cabbage ideal for soups, instant noodles, and dehydrated meal mixes. Maintains light colour and mild flavour after rehydration.",
     forms: ["Flakes", "Slices"],
-    mainImg: null,
+    mainImg: PRODUCT_IMGS.cabbage,
     specs: { "Moisture": "<5%", "Colour": "Creamy white to light green", "Cut Form": "Flakes / Slices", "Application": "Soups, instant noodles, dehydrated mixes", "Packaging": "Kraft + Liner", "Origin": "Maharashtra" }
   },
   {
     name: "Dehydrated Spinach",
     desc: "Rich green spinach flakes and powder retaining chlorophyll and nutrients. Ideal for nutraceuticals, health powders, and fortified food blends.",
     forms: ["Flakes", "Powder"],
-    mainImg: null,
+    mainImg: PRODUCT_IMGS.spinach,
     specs: { "Moisture": "<5%", "Colour": "Rich green", "Cut Form": "Flakes / Powder", "Application": "Nutraceuticals, powders, health blends", "Packaging": "Vacuum Packing Optional", "Origin": "Maharashtra" }
   },
   {
     name: "Dehydrated Banana",
     desc: "Creamy banana powder and slices made from ripe bananas. Perfect for baby food, bakery products, smoothies, and nutritional powders.",
     forms: ["Powder", "Slices"],
-    mainImg: null,
+    mainImg: PRODUCT_IMGS.banana,
     specs: { "Moisture": "<5%", "Colour": "Cream to light yellow", "Cut Form": "Powder / Slices", "Application": "Baby food, bakery, smoothies", "Packaging": "Poly Bag + Carton", "Origin": "Maharashtra / Karnataka" }
   },
   {
     name: "Dehydrated Mango",
     desc: "Golden mango powder and slices with concentrated tropical flavour. Used in beverages, desserts, flavouring, and export food manufacturing.",
     forms: ["Powder", "Slices"],
-    mainImg: null,
+    mainImg: PRODUCT_IMGS.mango,
     specs: { "Moisture": "<5%", "Colour": "Yellow to golden yellow", "Cut Form": "Powder / Slices", "Application": "Beverages, desserts, flavoring", "Packaging": "Poly Bag + Carton", "Origin": "Maharashtra / Konkan" }
   },
 ];
@@ -241,6 +248,7 @@ const style = `
   .hero-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--amber); color: var(--white); padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 500; cursor: pointer; border: none; transition: all 0.25s; animation: fadeSlideUp 0.7s 0.4s both; font-family: 'DM Sans', sans-serif; }
   .hero-cta:hover { background: var(--amber-light); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(196,135,58,0.35); }
   @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
   @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
   .ticker { background: var(--amber); padding: 12px 0; overflow: hidden; white-space: nowrap; }
@@ -477,11 +485,19 @@ const style = `
     .products-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
     .products-main { padding: 32px; }
     .home-enquiry-form { padding: 28px; }
+    .products-main { padding: 32px; }
+    .home-enquiry-form { padding: 28px; }
     .quality-timeline::before { left: 30px; }
     .qt-item { grid-template-columns: 30px 1fr; }
     .qt-empty { display: none; }
     .qt-dot-wrap { grid-column: 1; justify-content: flex-start; }
     .qt-content { grid-column: 2; }
+    .farm-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 200px 200px 200px; }
+    .mosaic-item:nth-child(1) { grid-column: 1 / 2; grid-row: 1 / 2; }
+    .mosaic-item:nth-child(2) { grid-column: 2 / 3; grid-row: 1 / 2; }
+    .mosaic-item:nth-child(3) { grid-column: 1 / 2; grid-row: 2 / 3; }
+    .mosaic-item:nth-child(4) { grid-column: 2 / 3; grid-row: 2 / 3; }
+    .mosaic-item:nth-child(5) { grid-column: 1 / 3; grid-row: 3 / 4; }
     .farm-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 200px 200px 200px; }
     .mosaic-item:nth-child(1) { grid-column: 1 / 2; grid-row: 1 / 2; }
     .mosaic-item:nth-child(2) { grid-column: 2 / 3; grid-row: 1 / 2; }
@@ -659,6 +675,11 @@ export default function App() {
                 onClick={() => setActiveTab(t.id)}>{t.label}</button>
             ))}
           </div>
+          <button className="nav-hamburger" onClick={() => setMenuOpen(o => !o)} aria-label="Menu">
+            <span style={{transform: menuOpen ? "rotate(45deg) translate(5px,5px)" : "none"}} />
+            <span style={{opacity: menuOpen ? 0 : 1}} />
+            <span style={{transform: menuOpen ? "rotate(-45deg) translate(5px,-5px)" : "none"}} />
+          </button>
           <button className="nav-hamburger" onClick={() => setMenuOpen(o => !o)} aria-label="Menu">
             <span style={{transform: menuOpen ? "rotate(45deg) translate(5px,5px)" : "none"}} />
             <span style={{opacity: menuOpen ? 0 : 1}} />
@@ -990,10 +1011,12 @@ export default function App() {
         ══════════════════════════════════════════════════ */}
         {activeTab === "process" && (
           <div className="page" key="process">
+            {/* Hero */}
             <div className="process-hero">
               <div className="section-label">How We Work</div>
               <h1 className="section-title">Process Flow & Critical Control Points</h1>
               <p className="section-body">
+                An 11-stage HACCP-aligned process that transforms fresh farm produce into export-grade dehydrated ingredients — with 6 Critical Control Points ensuring food safety at every step.
                 An 11-stage HACCP-aligned process that transforms fresh farm produce into export-grade dehydrated ingredients — with 6 Critical Control Points ensuring food safety at every step.
               </p>
             </div>
