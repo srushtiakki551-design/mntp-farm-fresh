@@ -680,11 +680,6 @@ export default function App() {
             <span style={{opacity: menuOpen ? 0 : 1}} />
             <span style={{transform: menuOpen ? "rotate(-45deg) translate(5px,-5px)" : "none"}} />
           </button>
-          <button className="nav-hamburger" onClick={() => setMenuOpen(o => !o)} aria-label="Menu">
-            <span style={{transform: menuOpen ? "rotate(45deg) translate(5px,5px)" : "none"}} />
-            <span style={{opacity: menuOpen ? 0 : 1}} />
-            <span style={{transform: menuOpen ? "rotate(-45deg) translate(5px,-5px)" : "none"}} />
-          </button>
         </nav>
         <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
           {tabs.map(t => (
