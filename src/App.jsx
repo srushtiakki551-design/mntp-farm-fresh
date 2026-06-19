@@ -61,6 +61,11 @@ const organizationSchema = {
     areaServed: ["IN","US","GB","AE","AU","DE"],
     availableLanguage: ["English","Hindi","Marathi"],
   },
+  sameAs: [
+    "https://www.linkedin.com/company/mntp-farmfresh/",
+    "https://www.facebook.com/people/Mntp-Farmfresh/61579930410953/",
+    "https://www.instagram.com/mntpfarmfresh",
+  ],
 };
 
 const faqSchema = {
@@ -108,16 +113,9 @@ const PRODUCT_SCHEMAS = {
 const LOGO_IMG = "/logo.png";
 
 const PRODUCT_IMGS = {
-  coriander:   "/coriander.png",
-  chilli:      "/chilli.png",
-  ginger:      "/ginger.png",
-  springonion: "/onion.png",
-  carrot:      "/carrot.png",
-  tomato:      "/tomato.png",
-  cabbage:     "/cabbage.png",   // ← add when ready
-  spinach:     "/spinach.png",
-  banana:      "/banana.png",
-  mango:       "/mango.png",
+  chilli: "/chilli.png",
+  ginger: "/ginger.png",
+  carrot: "/carrot.png",
 };
 
 const PRODUCTS = [
@@ -146,28 +144,28 @@ const PRODUCTS = [
     name: "Dehydrated Cabbage",
     desc: "Crisp dehydrated cabbage ideal for soups, instant noodles, and dehydrated meal mixes. Maintains light colour and mild flavour after rehydration.",
     forms: ["Flakes", "Slices"],
-    mainImg: PRODUCT_IMGS.cabbage,
+    mainImg: null,
     specs: { "Moisture": "<5%", "Colour": "Creamy white to light green", "Cut Form": "Flakes / Slices", "Application": "Soups, instant noodles, dehydrated mixes", "Packaging": "Kraft + Liner", "Origin": "Maharashtra" }
   },
   {
     name: "Dehydrated Spinach",
     desc: "Rich green spinach flakes and powder retaining chlorophyll and nutrients. Ideal for nutraceuticals, health powders, and fortified food blends.",
     forms: ["Flakes", "Powder"],
-    mainImg: PRODUCT_IMGS.spinach,
+    mainImg: null,
     specs: { "Moisture": "<5%", "Colour": "Rich green", "Cut Form": "Flakes / Powder", "Application": "Nutraceuticals, powders, health blends", "Packaging": "Vacuum Packing Optional", "Origin": "Maharashtra" }
   },
   {
     name: "Dehydrated Banana",
     desc: "Creamy banana powder and slices made from ripe bananas. Perfect for baby food, bakery products, smoothies, and nutritional powders.",
     forms: ["Powder", "Slices"],
-    mainImg: PRODUCT_IMGS.banana,
+    mainImg: null,
     specs: { "Moisture": "<5%", "Colour": "Cream to light yellow", "Cut Form": "Powder / Slices", "Application": "Baby food, bakery, smoothies", "Packaging": "Poly Bag + Carton", "Origin": "Maharashtra / Karnataka" }
   },
   {
     name: "Dehydrated Mango",
     desc: "Golden mango powder and slices with concentrated tropical flavour. Used in beverages, desserts, flavouring, and export food manufacturing.",
     forms: ["Powder", "Slices"],
-    mainImg: PRODUCT_IMGS.mango,
+    mainImg: null,
     specs: { "Moisture": "<5%", "Colour": "Yellow to golden yellow", "Cut Form": "Powder / Slices", "Application": "Beverages, desserts, flavoring", "Packaging": "Poly Bag + Carton", "Origin": "Maharashtra / Konkan" }
   },
 ];
@@ -248,7 +246,6 @@ const style = `
   .hero-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--amber); color: var(--white); padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 500; cursor: pointer; border: none; transition: all 0.25s; animation: fadeSlideUp 0.7s 0.4s both; font-family: 'DM Sans', sans-serif; }
   .hero-cta:hover { background: var(--amber-light); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(196,135,58,0.35); }
   @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
   @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
   .ticker { background: var(--amber); padding: 12px 0; overflow: hidden; white-space: nowrap; }
@@ -387,6 +384,14 @@ const style = `
   .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; }
   .footer-copy { font-size: 12px; color: rgba(245,240,232,0.3); }
 
+  .footer-social { display: flex; gap: 12px; align-items: center; }
+  .social-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.25s; text-decoration: none; flex-shrink: 0; }
+  .social-icon:hover { transform: translateY(-3px); }
+  .social-icon.linkedin { background: #0A66C2; }
+  .social-icon.facebook { background: #1877F2; }
+  .social-icon.instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+  .social-icon svg { width: 18px; height: 18px; fill: white; }
+
   .whatsapp-float { position: fixed; bottom: 28px; right: 28px; z-index: 999; width: 56px; height: 56px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.4); cursor: pointer; border: none; transition: all 0.25s; text-decoration: none; }
   .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 8px 32px rgba(37,211,102,0.55); }
   .whatsapp-float svg { width: 30px; height: 30px; }
@@ -485,19 +490,11 @@ const style = `
     .products-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
     .products-main { padding: 32px; }
     .home-enquiry-form { padding: 28px; }
-    .products-main { padding: 32px; }
-    .home-enquiry-form { padding: 28px; }
     .quality-timeline::before { left: 30px; }
     .qt-item { grid-template-columns: 30px 1fr; }
     .qt-empty { display: none; }
     .qt-dot-wrap { grid-column: 1; justify-content: flex-start; }
     .qt-content { grid-column: 2; }
-    .farm-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 200px 200px 200px; }
-    .mosaic-item:nth-child(1) { grid-column: 1 / 2; grid-row: 1 / 2; }
-    .mosaic-item:nth-child(2) { grid-column: 2 / 3; grid-row: 1 / 2; }
-    .mosaic-item:nth-child(3) { grid-column: 1 / 2; grid-row: 2 / 3; }
-    .mosaic-item:nth-child(4) { grid-column: 2 / 3; grid-row: 2 / 3; }
-    .mosaic-item:nth-child(5) { grid-column: 1 / 3; grid-row: 3 / 4; }
     .farm-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 200px 200px 200px; }
     .mosaic-item:nth-child(1) { grid-column: 1 / 2; grid-row: 1 / 2; }
     .mosaic-item:nth-child(2) { grid-column: 2 / 3; grid-row: 1 / 2; }
@@ -844,7 +841,20 @@ export default function App() {
               </div>
               <div className="footer-bottom">
                 <span className="footer-copy">© 2025 MNTP Farm Fresh. All rights reserved.</span>
-                <span className="footer-copy">Made with 🌿 in Solapur</span>
+                <div className="footer-social">
+                  {/* LinkedIn */}
+                  <a href="https://www.linkedin.com/company/mntp-farmfresh/" target="_blank" rel="noopener noreferrer" className="social-icon linkedin" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                  </a>
+                  {/* Facebook */}
+                  <a href="https://www.facebook.com/people/Mntp-Farmfresh/61579930410953/" target="_blank" rel="noopener noreferrer" className="social-icon facebook" aria-label="Facebook">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                  </a>
+                  {/* Instagram */}
+                  <a href="https://www.instagram.com/mntpfarmfresh" target="_blank" rel="noopener noreferrer" className="social-icon instagram" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                  </a>
+                </div>
               </div>
             </footer>
           </div>
@@ -1006,12 +1016,10 @@ export default function App() {
         ══════════════════════════════════════════════════ */}
         {activeTab === "process" && (
           <div className="page" key="process">
-            {/* Hero */}
             <div className="process-hero">
               <div className="section-label">How We Work</div>
               <h1 className="section-title">Process Flow & Critical Control Points</h1>
               <p className="section-body">
-                An 11-stage HACCP-aligned process that transforms fresh farm produce into export-grade dehydrated ingredients — with 6 Critical Control Points ensuring food safety at every step.
                 An 11-stage HACCP-aligned process that transforms fresh farm produce into export-grade dehydrated ingredients — with 6 Critical Control Points ensuring food safety at every step.
               </p>
             </div>
