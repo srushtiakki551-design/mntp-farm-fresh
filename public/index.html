@@ -52,5 +52,23 @@
       food manufacturers and exporters worldwide. Contact: contact@mntpfarmfresh.com | +91 9423591545.
     </noscript>
     <div id="root"></div>
+
+    <!--
+      HIDDEN FORM — DO NOT REMOVE.
+      This is invisible and never shown to real visitors. It exists purely
+      so Netlify's build bot detects this form schema and creates the
+      "enquiry" form in your Netlify dashboard. Your real React form in
+      App.jsx submits matching data here via fetch(), and Netlify links
+      those submissions to this schema automatically.
+    -->
+    <form name="enquiry" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="text" name="company" />
+      <input type="email" name="email" />
+      <input type="text" name="phone" />
+      <input type="text" name="product" />
+      <textarea name="message"></textarea>
+      <input type="text" name="bot-field" />
+    </form>
   </body>
 </html>
