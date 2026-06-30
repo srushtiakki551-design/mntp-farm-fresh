@@ -373,6 +373,7 @@ const style = `
   .form-submit { background: var(--green-deep); color: var(--cream); padding: 14px 36px; border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.25s; display: inline-flex; align-items: center; gap: 10px; margin-top: 8px; }
   .form-submit:hover { background: var(--green-fresh); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(26,58,31,0.2); }
   .submit-success { background: rgba(74,158,85,0.12); border: 1.5px solid var(--green-fresh); border-radius: 12px; padding: 20px 24px; color: var(--green-mid); font-size: 15px; display: flex; align-items: center; gap: 12px; margin-top: 16px; animation: fadeSlideUp 0.4s both; }
+  .submit-error { background: rgba(184,84,80,0.12); border: 1.5px solid #b85450; border-radius: 12px; padding: 20px 24px; color: #b85450; font-size: 15px; display: flex; align-items: center; gap: 12px; margin-top: 16px; animation: fadeSlideUp 0.4s both; }
 
   footer { background: #0d1f10; padding: 48px 80px 28px; display: flex; flex-direction: column; gap: 32px; }
   .footer-top { display: flex; align-items: center; justify-content: space-between; }
@@ -503,7 +504,7 @@ const style = `
 `;
 
 // ─── Enquiry Form ─────────────────────────────────────────────────────────────
-function EnquiryForm({ onSubmit, submitted, formData, setFormData }) {
+function EnquiryForm({ onSubmit, submitted, submitting, submitError, formData, setFormData }) {
   return (
     <div>
       <div className="form-row">
@@ -545,9 +546,14 @@ function EnquiryForm({ onSubmit, submitted, formData, setFormData }) {
           value={formData.message}
           onChange={e => setFormData({ ...formData, message: e.target.value })} />
       </div>
-      <button className="form-submit" onClick={onSubmit}>Send Enquiry 🌿</button>
+      <button className="form-submit" onClick={onSubmit} disabled={submitting} style={submitting ? {opacity:0.7,cursor:"not-allowed"} : {}}>
+        {submitting ? "Sending..." : "Send Enquiry 🌿"}
+      </button>
       {submitted && (
         <div className="submit-success">✅ Thank you! We will respond within 24 hours.</div>
+      )}
+      {submitError && (
+        <div className="submit-error">⚠️ Something went wrong. Please try again, or WhatsApp us directly.</div>
       )}
     </div>
   );
@@ -561,6 +567,8 @@ export default function App() {
   });
   const [formData, setFormData]       = useState({ name: "", company: "", email: "", phone: "", product: "", message: "" });
   const [submitted, setSubmitted]     = useState(false);
+  const [submitError, setSubmitError] = useState(false);
+  const [submitting, setSubmitting]   = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [lightboxPhoto, setLightboxPhoto]     = useState(null);
   const [menuOpen, setMenuOpen]       = useState(false);
@@ -578,11 +586,29 @@ export default function App() {
     return () => window.removeEventListener("popstate", onPop);
   }, []);
 
-  const handleSubmit = () => {
-    if (formData.name && formData.email) {
+  // Encode form data the way Netlify Forms expects (application/x-www-form-urlencoded)
+  const encodeForNetlify = (data) =>
+    Object.keys(data)
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+      .join("&");
+
+  const handleSubmit = async () => {
+    if (!formData.name || !formData.email) return;
+    setSubmitting(true);
+    setSubmitError(false);
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encodeForNetlify({ "form-name": "enquiry", ...formData }),
+      });
       setSubmitted(true);
       setTimeout(() => setSubmitted(false), 5000);
       setFormData({ name: "", company: "", email: "", phone: "", product: "", message: "" });
+    } catch (err) {
+      setSubmitError(true);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -821,7 +847,7 @@ export default function App() {
                 </div>
                 <div className="home-enquiry-form">
                   <div className="form-title">Send an Enquiry</div>
-                  <EnquiryForm onSubmit={handleSubmit} submitted={submitted} formData={formData} setFormData={setFormData} />
+                  <EnquiryForm onSubmit={handleSubmit} submitted={submitted} submitting={submitting} submitError={submitError} formData={formData} setFormData={setFormData} />
                 </div>
               </div>
             </div>
@@ -1188,7 +1214,7 @@ export default function App() {
               </div>
               <div className="contact-right">
                 <div className="form-title">Send an Enquiry</div>
-                <EnquiryForm onSubmit={handleSubmit} submitted={submitted} formData={formData} setFormData={setFormData} />
+                <EnquiryForm onSubmit={handleSubmit} submitted={submitted} submitting={submitting} submitError={submitError} formData={formData} setFormData={setFormData} />
               </div>
             </div>
           </div>
