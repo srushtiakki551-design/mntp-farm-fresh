@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import emailjs from "@emailjs/browser";
 
 // ─── SEO Component ────────────────────────────────────────────────────────────
 const SITE_NAME = "MNTP Farm Fresh";
@@ -586,22 +587,30 @@ export default function App() {
     return () => window.removeEventListener("popstate", onPop);
   }, []);
 
-  // Encode form data the way Netlify Forms expects (application/x-www-form-urlencoded)
-  const encodeForNetlify = (data) =>
-    Object.keys(data)
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
-      .join("&");
+  // ── EmailJS config ──────────────────────────────────────────────────────
+  const EMAILJS_SERVICE_ID  = "service_lbkhyzg";
+  const EMAILJS_TEMPLATE_ID = "template_p8dn4n6";
+  const EMAILJS_PUBLIC_KEY  = "Vj1g9UDZnGi8HDdup";
 
   const handleSubmit = async () => {
     if (!formData.name || !formData.email) return;
     setSubmitting(true);
     setSubmitError(false);
     try {
-      await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encodeForNetlify({ "form-name": "enquiry", ...formData }),
-      });
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          name: formData.name,
+          company: formData.company,
+          email: formData.email,
+          phone: formData.phone,
+          product: formData.product,
+          message: formData.message,
+          time: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
+        },
+        { publicKey: EMAILJS_PUBLIC_KEY }
+      );
       setSubmitted(true);
       setTimeout(() => setSubmitted(false), 5000);
       setFormData({ name: "", company: "", email: "", phone: "", product: "", message: "" });
