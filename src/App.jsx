@@ -117,6 +117,10 @@ const PRODUCT_IMGS = {
   chilli: "/chilli.png",
   ginger: "/ginger.png",
   carrot: "/carrot.png",
+  cabbage: "/cabbage.png",
+  spinach: "/spinach.png",
+  banana: "/banana.png",
+  mango: "/mango.png",
 };
 
 const PRODUCTS = [
@@ -145,28 +149,28 @@ const PRODUCTS = [
     name: "Dehydrated Cabbage",
     desc: "Crisp dehydrated cabbage ideal for soups, instant noodles, and dehydrated meal mixes. Maintains light colour and mild flavour after rehydration.",
     forms: ["Flakes", "Slices"],
-    mainImg: null,
+    mainImg: PRODUCT_IMGS.cabbage,
     specs: { "Moisture": "<5%", "Colour": "Creamy white to light green", "Cut Form": "Flakes / Slices", "Application": "Soups, instant noodles, dehydrated mixes", "Packaging": "Kraft + Liner", "Origin": "Maharashtra" }
   },
   {
     name: "Dehydrated Spinach",
     desc: "Rich green spinach flakes and powder retaining chlorophyll and nutrients. Ideal for nutraceuticals, health powders, and fortified food blends.",
     forms: ["Flakes", "Powder"],
-    mainImg: null,
+    mainImg: PRODUCT_IMGS.spinach,
     specs: { "Moisture": "<5%", "Colour": "Rich green", "Cut Form": "Flakes / Powder", "Application": "Nutraceuticals, powders, health blends", "Packaging": "Vacuum Packing Optional", "Origin": "Maharashtra" }
   },
   {
     name: "Dehydrated Banana",
     desc: "Creamy banana powder and slices made from ripe bananas. Perfect for baby food, bakery products, smoothies, and nutritional powders.",
     forms: ["Powder", "Slices"],
-    mainImg: null,
+    mainImg: PRODUCT_IMGS.banana,
     specs: { "Moisture": "<5%", "Colour": "Cream to light yellow", "Cut Form": "Powder / Slices", "Application": "Baby food, bakery, smoothies", "Packaging": "Poly Bag + Carton", "Origin": "Maharashtra / Karnataka" }
   },
   {
     name: "Dehydrated Mango",
     desc: "Golden mango powder and slices with concentrated tropical flavour. Used in beverages, desserts, flavouring, and export food manufacturing.",
     forms: ["Powder", "Slices"],
-    mainImg: null,
+    mainImg: PRODUCT_IMGS.mango,
     specs: { "Moisture": "<5%", "Colour": "Yellow to golden yellow", "Cut Form": "Powder / Slices", "Application": "Beverages, desserts, flavoring", "Packaging": "Poly Bag + Carton", "Origin": "Maharashtra / Konkan" }
   },
 ];
