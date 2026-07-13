@@ -195,11 +195,11 @@ const PROCESS_STEPS = [
 ];
 
 const FARM_PHOTOS = [
-  { src: "https://i.ibb.co/SDs30Sdq/DSC-49117.jpg",  caption: "Moringa trees in flower",                tag: "Farm Diversity"  },
-  { src: "https://i.ibb.co/Y7dDnsF0/DSC-4949.jpg",   caption: "Seedlings planted under mulch",          tag: "Planting Stage"  },
-  { src: "https://i.ibb.co/cStyWBHd/DSC-4985.jpg",   caption: "Fresh bottle gourd on the vine",         tag: "Produce"         },
-  { src: "https://i.ibb.co/vx8YFzF7/DSC-4977.jpg",   caption: "Tomato vines in full bloom",             tag: "Tomato Farm"     },
-  { src: "https://i.ibb.co/XxPjM083/DSC-4975.jpg",   caption: "Trellised crop rows with drip irrigation", tag: "Our Fields"   },
+  { src: "https://i.ibb.co/vx8YFzF7/DSC-4977.jpg",   caption: "Moringa trees in flower",                tag: "Farm Diversity"  },
+  { src: "https://i.ibb.co/cStyWBHd/DSC-4985.jpg",   caption: "Seedlings planted under mulch",          tag: "Planting Stage"  },
+  { src: "https://i.ibb.co/Y7dDnsF0/DSC-4949.jpg",   caption: "Fresh bottle gourd on the vine",         tag: "Produce"         },
+  { src: "https://i.ibb.co/SDs30Sdq/DSC-49117.jpg",  caption: "Tomato vines on trellis netting",        tag: "Tomato Farm"     },
+  { src: "https://i.ibb.co/XxPjM083/DSC-4975.jpg",   caption: "Open farm rows with drip irrigation",    tag: "Our Fields"      },
 ];
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
@@ -796,7 +796,7 @@ export default function App() {
                   <div className="section-label">Behind the Scenes</div>
                   <h2 className="section-title">Our Manufacturing Plant</h2>
                   <p className="section-body">
-                    A closer look at our dehydration facility at Chincholi MIDC, Solapur  where farm fresh produce is transformed into export grade dehydrated ingredients.
+                    A closer look at our dehydration facility at Chincholi MIDC, Solapur, where farm fresh produce is transformed into export grade dehydrated ingredients.
                   </p>
                   <div style={{marginTop:28,display:"flex",gap:12,flexWrap:"wrap"}}>
                     <div className="video-badge">🏭 Plant footage</div>
