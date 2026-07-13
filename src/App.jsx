@@ -117,10 +117,6 @@ const PRODUCT_IMGS = {
   chilli: "/chilli.png",
   ginger: "/ginger.png",
   carrot: "/carrot.png",
-  cabbage: "/cabbage.png",
-  spinach: "/spinach.png",
-  banana: "/banana.png",
-  mango: "/mango.png",
 };
 
 const PRODUCTS = [
@@ -149,28 +145,28 @@ const PRODUCTS = [
     name: "Dehydrated Cabbage",
     desc: "Crisp dehydrated cabbage ideal for soups, instant noodles, and dehydrated meal mixes. Maintains light colour and mild flavour after rehydration.",
     forms: ["Flakes", "Slices"],
-    mainImg: PRODUCT_IMGS.cabbage,
+    mainImg: null,
     specs: { "Moisture": "<5%", "Colour": "Creamy white to light green", "Cut Form": "Flakes / Slices", "Application": "Soups, instant noodles, dehydrated mixes", "Packaging": "Kraft + Liner", "Origin": "Maharashtra" }
   },
   {
     name: "Dehydrated Spinach",
     desc: "Rich green spinach flakes and powder retaining chlorophyll and nutrients. Ideal for nutraceuticals, health powders, and fortified food blends.",
     forms: ["Flakes", "Powder"],
-    mainImg: PRODUCT_IMGS.spinach,
+    mainImg: null,
     specs: { "Moisture": "<5%", "Colour": "Rich green", "Cut Form": "Flakes / Powder", "Application": "Nutraceuticals, powders, health blends", "Packaging": "Vacuum Packing Optional", "Origin": "Maharashtra" }
   },
   {
     name: "Dehydrated Banana",
     desc: "Creamy banana powder and slices made from ripe bananas. Perfect for baby food, bakery products, smoothies, and nutritional powders.",
     forms: ["Powder", "Slices"],
-    mainImg: PRODUCT_IMGS.banana,
+    mainImg: null,
     specs: { "Moisture": "<5%", "Colour": "Cream to light yellow", "Cut Form": "Powder / Slices", "Application": "Baby food, bakery, smoothies", "Packaging": "Poly Bag + Carton", "Origin": "Maharashtra / Karnataka" }
   },
   {
     name: "Dehydrated Mango",
     desc: "Golden mango powder and slices with concentrated tropical flavour. Used in beverages, desserts, flavouring, and export food manufacturing.",
     forms: ["Powder", "Slices"],
-    mainImg: PRODUCT_IMGS.mango,
+    mainImg: null,
     specs: { "Moisture": "<5%", "Colour": "Yellow to golden yellow", "Cut Form": "Powder / Slices", "Application": "Beverages, desserts, flavoring", "Packaging": "Poly Bag + Carton", "Origin": "Maharashtra / Konkan" }
   },
 ];
@@ -199,10 +195,10 @@ const PROCESS_STEPS = [
 ];
 
 const FARM_PHOTOS = [
-  { src: "https://i.ibb.co/vx8YFzF7/DSC-4977.jpg",   caption: "Tomato vines in full bloom",             tag: "Tomato Farm"     },
-  { src: "https://i.ibb.co/cStyWBHd/DSC-4985.jpg",   caption: "Fresh bottle gourd on the vine",         tag: "Produce"         },
-  { src: "https://i.ibb.co/Y7dDnsF0/DSC-4949.jpg",   caption: "Seedlings planted under mulch",          tag: "Planting Stage"  },
   { src: "https://i.ibb.co/SDs30Sdq/DSC-49117.jpg",  caption: "Moringa trees in flower",                tag: "Farm Diversity"  },
+  { src: "https://i.ibb.co/Y7dDnsF0/DSC-4949.jpg",   caption: "Seedlings planted under mulch",          tag: "Planting Stage"  },
+  { src: "https://i.ibb.co/cStyWBHd/DSC-4985.jpg",   caption: "Fresh bottle gourd on the vine",         tag: "Produce"         },
+  { src: "https://i.ibb.co/vx8YFzF7/DSC-4977.jpg",   caption: "Tomato vines in full bloom",             tag: "Tomato Farm"     },
   { src: "https://i.ibb.co/XxPjM083/DSC-4975.jpg",   caption: "Trellised crop rows with drip irrigation", tag: "Our Fields"   },
 ];
 
@@ -798,13 +794,13 @@ export default function App() {
               <div className="farm-video-inner">
                 <div className="farm-video-text">
                   <div className="section-label">Behind the Scenes</div>
-                  <h2 className="section-title">Watch Our Farm in Action</h2>
+                  <h2 className="section-title">Our Manufacturing Plant</h2>
                   <p className="section-body">
-                    From lush green fields to carefully tended produce — every crop we dehydrate begins its journey here, grown by farmers we know by name.
+                    A closer look at our state-of-the-art dehydration facility at Chincholi MIDC, Solapur — where farm-fresh produce is transformed into export-grade dehydrated ingredients.
                   </p>
                   <div style={{marginTop:28,display:"flex",gap:12,flexWrap:"wrap"}}>
-                    <div className="video-badge">🎥 Farm footage</div>
-                    <div className="video-badge">📍 Solapur, Maharashtra</div>
+                    <div className="video-badge">🏭 Plant footage</div>
+                    <div className="video-badge">📍 Chincholi MIDC, Solapur</div>
                   </div>
                 </div>
                 <div className="farm-video-wrap">
