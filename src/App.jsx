@@ -796,7 +796,7 @@ export default function App() {
                   <div className="section-label">Behind the Scenes</div>
                   <h2 className="section-title">Our Manufacturing Plant</h2>
                   <p className="section-body">
-                    A closer look at our state-of-the-art dehydration facility at Chincholi MIDC, Solapur — where farm-fresh produce is transformed into export-grade dehydrated ingredients.
+                    A closer look at our dehydration facility at Chincholi MIDC, Solapur  where farm fresh produce is transformed into export grade dehydrated ingredients.
                   </p>
                   <div style={{marginTop:28,display:"flex",gap:12,flexWrap:"wrap"}}>
                     <div className="video-badge">🏭 Plant footage</div>
