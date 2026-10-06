@@ -116,7 +116,11 @@ const LOGO_IMG = "/logo.png";
 const PRODUCT_IMGS = {
   chilli: "/chilli.png",
   ginger: "/ginger.png",
-  carrot: "/carrot.png",
+  tomato: "/tomato.png",
+  dill: "/dill.png",
+  bitterGourd: "/bitter-gourd.png",
+  coriander: "/coriander.png",
+  springOnion: "/spring-onion.png",
 };
 
 const PRODUCTS = [
@@ -125,49 +129,49 @@ const PRODUCTS = [
     desc: "Carefully sliced and dried ginger root retaining essential oils and gingerol. Widely used in beverages, spice mixes, health products, and export food processing.",
     forms: ["Sliced", "Powder", "Granules", "Splits"],
     mainImg: PRODUCT_IMGS.ginger,
-    specs: { "Moisture": "≤10%", "Colour": "Light Tan", "Cut Form": "Sliced / Powder / Granules / Splits", "Application": "Beverages, spice mixes, health products", "Packaging": "Poly Bag + Carton", "Origin": "Kerala / Maharashtra" }
+    specs: {  "Colour": "Light Tan", "Cut Form": "Sliced / Powder / Granules / Splits", "Application": "Beverages, spice mixes, health products", "Packaging": "Poly Bag + Carton", "Origin": "Kerala / Maharashtra" }
   },
   {
     name: "Dehydrated Green Chilli",
     desc: "Sun-dried green chilli retaining natural heat and colour. Used in sauces, seasonings, ready meals, and spice blends. Available in flakes, powder, and slices.",
-    forms: ["Flakes", "Powder", "Slices"],
+    forms: ["Rings", "Powder"],
     mainImg: PRODUCT_IMGS.chilli,
-    specs: { "Moisture": "6–8%", "Colour": "Natural green to olive green", "Cut Form": "Flakes / Powder / Slices", "Application": "Sauces, seasonings, ready meals", "Packaging": "LDPE liner + Carton", "Origin": "Maharashtra / AP" }
+    specs: { "Colour": "Natural green to olive green", "Cut Form": "Rings / Powder", "Application": "Sauces, seasonings, ready meals", "Packaging": "LDPE liner + Carton", "Origin": "Maharashtra" }
   },
   {
-    name: "Dehydrated Carrot",
-    desc: "Bright orange carrot with retained beta-carotene and natural sweetness. Widely used in beverages, desserts, flavouring, and health powders.",
-    forms: ["Flakes", "Powder", "Slices"],
-    mainImg: PRODUCT_IMGS.carrot,
-    specs: { "Moisture": "<5%", "Colour": "Bright orange", "Cut Form": "Flakes / Powder / Slices", "Application": "Beverages, desserts, flavoring", "Packaging": "Poly bag + Carton", "Origin": "Maharashtra / Rajasthan" }
+    name: "Dehydrated Tomato",
+    desc: "Rich red tomato with concentrated natural flavour, colour, and umami. Ideal for sauces, soups, seasonings, snacks, and ready-to-eat foods.",
+    forms: ["4 Cut Rings", "2 Cut Rings", "Slices", "Powder"],
+    mainImg: PRODUCT_IMGS.tomato,
+    specs: {  "Colour": "Rich red", "Cut Form": "4 cut Rings/2 cut Rings/Slices", "Application": "Sauces, seasonings, soups, ready meals", "Packaging": "Poly bag + Carton", "Origin": "Maharashtra / Rajasthan" }
   },
   {
-    name: "Dehydrated Cabbage",
-    desc: "Crisp dehydrated cabbage ideal for soups, instant noodles, and dehydrated meal mixes. Maintains light colour and mild flavour after rehydration.",
-    forms: ["Flakes", "Slices"],
-    mainImg: null,
-    specs: { "Moisture": "<5%", "Colour": "Creamy white to light green", "Cut Form": "Flakes / Slices", "Application": "Soups, instant noodles, dehydrated mixes", "Packaging": "Kraft + Liner", "Origin": "Maharashtra" }
+    name: "Dehydrated Coriander",
+    desc: "Fragrant coriander with a fresh, mildly citrusy flavour and natural green colour. Widely used in spice blends, seasonings, sauces.",
+    forms: ["Leaves", "Flakes", "Slices"],
+    mainImg: PRODUCT_IMGS.coriander,
+    specs: { "Colour": "Green to dark green", "Cut Form": "Flakes / Slices", "Application": "Spice blends, seasonings, sauces, soups, savoury foods", "Packaging": "Kraft + Liner", "Origin": "Maharashtra" }
   },
   {
-    name: "Dehydrated Spinach",
-    desc: "Rich green spinach flakes and powder retaining chlorophyll and nutrients. Ideal for nutraceuticals, health powders, and fortified food blends.",
+    name: "Dehydrated Dill Weeds",
+    desc: "Aromatic green dill with a fresh herbal flavour and distinctive fragrance. Widely used in seasonings, pickles, sauces, soups, and savoury foods.",
     forms: ["Flakes", "Powder"],
-    mainImg: null,
-    specs: { "Moisture": "<5%", "Colour": "Rich green", "Cut Form": "Flakes / Powder", "Application": "Nutraceuticals, powders, health blends", "Packaging": "Vacuum Packing Optional", "Origin": "Maharashtra" }
+    mainImg: PRODUCT_IMGS.dill,
+    specs: { "Colour": "Green to dark green", "Cut Form": "Whole leaves/Flakes /Powder", "Application": "Seasonings, pickles, sauces, soups, savoury foods", "Packaging": "Vacuum Packing Optional", "Origin": "Maharashtra" }
   },
   {
-    name: "Dehydrated Banana",
-    desc: "Creamy banana powder and slices made from ripe bananas. Perfect for baby food, bakery products, smoothies, and nutritional powders.",
+    name: "Dehydrated Bitter Gourd",
+    desc: "Naturally bitter vegetable with concentrated flavour and nutrients. Suitable for herbal preparations, teas, seasonings, soups, and health-focused foods.",
     forms: ["Powder", "Slices"],
-    mainImg: null,
-    specs: { "Moisture": "<5%", "Colour": "Cream to light yellow", "Cut Form": "Powder / Slices", "Application": "Baby food, bakery, smoothies", "Packaging": "Poly Bag + Carton", "Origin": "Maharashtra / Karnataka" }
+    mainImg: PRODUCT_IMGS.bitterGourd,
+    specs: { "Colour": "Green to dark green", "Cut Form": "Powder / Slices", "Application": "Herbal teas, health foods, soups, seasonings, herbal preparations", "Packaging": "Poly Bag + Carton", "Origin": "Maharashtra / Karnataka" }
   },
   {
-    name: "Dehydrated Mango",
-    desc: "Golden mango powder and slices with concentrated tropical flavour. Used in beverages, desserts, flavouring, and export food manufacturing.",
+    name: "Dehydrated Spring Onion",
+    desc: "Fresh and aromatic spring onion with a mild onion flavour and natural green colour. Ideal for soups, noodles, sauces, seasonings, snacks, and ready-to-eat foods.",
     forms: ["Powder", "Slices"],
-    mainImg: null,
-    specs: { "Moisture": "<5%", "Colour": "Yellow to golden yellow", "Cut Form": "Powder / Slices", "Application": "Beverages, desserts, flavoring", "Packaging": "Poly Bag + Carton", "Origin": "Maharashtra / Konkan" }
+    mainImg: PRODUCT_IMGS.springOnion,
+    specs: { "Moisture": "<5%", "Colour": "Green to light green", "Cut Form": "Powder / Slices", "Application": "Soups, noodles, sauces, seasonings, snacks, ready-to-eat foods", "Packaging": "Poly Bag + Carton", "Origin": "Maharashtra / Konkan" }
   },
 ];
 
